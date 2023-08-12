@@ -104,27 +104,27 @@ const AppProvider = ({ children }) => {
   =                    AXIOS                    =
   =============================================*/
   const authFetch = axios.create({
-    baseURL: 'https://invoice-app-api.vercel.app/api/v1',
+    baseURL: 'https://invoice-gold-api.vercel.app/api/v1',
   });
 
   // request
   authFetch.interceptors.request.use(
-    config => {
+    (config) => {
       config.headers['Authorization'] = `Bearer ${state.token}`;
 
       return config;
     },
-    error => {
+    (error) => {
       return Promise.reject(error);
-    }
+    },
   );
 
   // response
   authFetch.interceptors.response.use(
-    response => {
+    (response) => {
       return response;
     },
-    error => {
+    (error) => {
       console.log(error.response);
 
       if (error.response.status === 401) {
@@ -132,7 +132,7 @@ const AppProvider = ({ children }) => {
       }
 
       return Promise.reject(error);
-    }
+    },
   );
   /*=====  End of AXIOS  ======*/
 
@@ -160,11 +160,11 @@ const AppProvider = ({ children }) => {
     dispatch({ type: HANDLE_CHANGE, payload: { name, value } });
   };
 
-  const displayForm = value => {
+  const displayForm = (value) => {
     dispatch({ type: DISPLAY_FORM, payload: value });
   };
 
-  const addQuery = value => {
+  const addQuery = (value) => {
     const tempArray = [...state.query];
 
     if (tempArray.includes(value)) {
@@ -188,8 +188,8 @@ const AppProvider = ({ children }) => {
 
     try {
       const { data } = await axios.post(
-        `https://invoice-app-api.vercel.app/api/v1/auth/${endPoint}`,
-        currentUser
+        `https://invoice-gold-api.vercel.app/api/v1/auth/${endPoint}`,
+        currentUser,
       );
 
       const { user, token } = data;
@@ -229,7 +229,7 @@ const AppProvider = ({ children }) => {
     dispatch({ type: CHANGE_INVOICE_ITEM, payload: { check, name, value } });
   };
 
-  const deleteInvoiceItem = check => {
+  const deleteInvoiceItem = (check) => {
     dispatch({ type: DELETE_INVOICE_ITEM, payload: check });
   };
   /*=====  End of INVOICE ITEM ACTIONS  ======*/
@@ -243,7 +243,7 @@ const AppProvider = ({ children }) => {
     let url = `/invoices?`;
 
     if (state.query.length > 0) {
-      state.query.map(item => (url += `status=${item}&`));
+      state.query.map((item) => (url += `status=${item}&`));
     }
 
     dispatch({ type: GET_INVOICES_BEGIN });
@@ -266,7 +266,7 @@ const AppProvider = ({ children }) => {
   };
 
   //---- Get Single Invoice
-  const getSingleInvoice = async id => {
+  const getSingleInvoice = async (id) => {
     dispatch({ type: GET_SINGLE_INVOICE_BEGIN });
 
     try {
@@ -286,7 +286,7 @@ const AppProvider = ({ children }) => {
   };
 
   //---- Create Invoice
-  const createInvoice = async status => {
+  const createInvoice = async (status) => {
     dispatch({ type: CREATE_INVOICE_BEGIN });
 
     try {
@@ -407,7 +407,7 @@ const AppProvider = ({ children }) => {
   };
 
   //---- Change Invoice Status
-  const changeInvoiceStatus = async status => {
+  const changeInvoiceStatus = async (status) => {
     dispatch({ type: CHANGE_INVOICE_STATUS_BEGIN });
 
     const { _id } = state.singleInvoice;
@@ -432,7 +432,7 @@ const AppProvider = ({ children }) => {
   };
 
   //---- Delete Invoice
-  const setDeleteInvoice = value => {
+  const setDeleteInvoice = (value) => {
     dispatch({ type: SET_DELETE_INVOICE, payload: value });
   };
 
